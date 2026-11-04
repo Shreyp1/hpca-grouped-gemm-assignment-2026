@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1836" height="857" viewBox="0 0 1836 857" role="img" aria-labelledby="svgtitle svgdesc">
+<title id="svgtitle">One operation, many independent matrix multiplications</title>
+<desc id="svgdesc">Three independent grouped GEMM examples. Each group has its own X, W, bias and Y. The number of rows M varies between groups, while K and N are common. The outputs are computed as ReLU(X times W plus bias).</desc>
+<defs>
+  <linearGradient id="panel" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0" stop-color="#fafcff"/><stop offset="1" stop-color="#f7f9fc"/></linearGradient>
+  <linearGradient id="blue" x1="0" y1="0" x2="0.8" y2="1"><stop stop-color="#eef5ff"/><stop offset="1" stop-color="#dbeaff"/></linearGradient>
+  <linearGradient id="orange" x1="0" y1="0" x2="0.9" y2="1"><stop stop-color="#fff9e3"/><stop offset="1" stop-color="#fff0bd"/></linearGradient>
+  <linearGradient id="purple" x1="0" y1="0" x2="0.9" y2="1"><stop stop-color="#fbf6ff"/><stop offset="1" stop-color="#ede2ff"/></linearGradient>
+  <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dcfff0"/><stop offset="1" stop-color="#bcf5dc"/></linearGradient>
+  <linearGradient id="heading" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d1e2f7"/><stop offset="1" stop-color="#e0eaf8"/></linearGradient>
+</defs>
+<g font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1836" height="857" rx="0" fill="#ffffff" stroke="none" stroke-width="1" />
+<rect x="27" y="26" width="1730" height="783" rx="27" fill="url(#panel)" stroke="#d9e4f1" stroke-width="1.6" />
+<text x="67" y="83" fill="#0f1a33" font-size="40" font-weight="800" text-anchor="start" >ONE OPERATION, MANY INDEPENDENT MATRIX MULTIPLICATIONS</text>
+<text x="68" y="124" fill="#33435d" font-size="28" font-weight="400" text-anchor="start" >Each group has its own input matrix X, weight matrix W, and bias b; only the row count M changes.</text>
+<rect x="300" y="159" width="187" height="49" rx="12" fill="url(#heading)" stroke="none" stroke-width="1" />
+<rect x="549" y="159" width="184" height="49" rx="12" fill="url(#heading)" stroke="none" stroke-width="1" />
+<rect x="791" y="159" width="143" height="49" rx="12" fill="url(#heading)" stroke="none" stroke-width="1" />
+<rect x="1269" y="159" width="191" height="49" rx="12" fill="url(#heading)" stroke="none" stroke-width="1" />
+<text x="393" y="190" fill="#0c255c" font-size="25" font-weight="700" text-anchor="middle" >X<tspan font-size="17.5" baseline-shift="sub">g</tspan> (M<tspan font-size="17.5" baseline-shift="sub">g</tspan> × K)</text>
+<text x="641" y="190" fill="#0c255c" font-size="25" font-weight="700" text-anchor="middle" >W<tspan font-size="17.5" baseline-shift="sub">g</tspan> (K × N)</text>
+<text x="862" y="190" fill="#0c255c" font-size="25" font-weight="700" text-anchor="middle" >b<tspan font-size="17.5" baseline-shift="sub">g</tspan> (N)</text>
+<text x="1364" y="190" fill="#0c255c" font-size="25" font-weight="700" text-anchor="middle" >Y<tspan font-size="17.5" baseline-shift="sub">g</tspan> (M<tspan font-size="17.5" baseline-shift="sub">g</tspan> × N)</text>
+<g id="group-0" aria-label="Group 0">
+<rect x="67" y="229" width="191" height="89" rx="19" fill="url(#blue)" stroke="#246aff" stroke-width="1.8" />
+<text x="163" y="263" fill="#123ab2" font-size="27" font-weight="700" text-anchor="middle" >Group 0</text>
+<text x="163" y="301" fill="#123ab2" font-size="24" font-weight="700" text-anchor="middle" >M₀ = 2</text>
+<rect x="319" y="231" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="355.0" y="259.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >1</text>
+<rect x="394" y="231" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="430.0" y="259.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >2</text>
+<rect x="319" y="274" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="355.0" y="302.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >3</text>
+<rect x="394" y="274" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="430.0" y="302.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >1</text>
+<rect x="565" y="231" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="601.0" y="259.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >1</text>
+<rect x="640" y="231" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="676.0" y="259.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >2</text>
+<rect x="565" y="274" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="601.0" y="302.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >-1</text>
+<rect x="640" y="274" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="676.0" y="302.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >1</text>
+<rect x="797" y="252" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="833.0" y="280.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >1</text>
+<rect x="872" y="252" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="908.0" y="280.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >-2</text>
+<rect x="1295" y="231" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="1331.0" y="259.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >0</text>
+<rect x="1370" y="231" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="1406.0" y="259.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >2</text>
+<rect x="1295" y="274" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="1331.0" y="302.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >3</text>
+<rect x="1370" y="274" width="72" height="40" rx="11" fill="#e9f2ff" stroke="#246aff" stroke-width="1.8" />
+<text x="1406.0" y="302.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >5</text>
+<text x="514" y="284" fill="#33445e" font-size="37" font-weight="700" text-anchor="middle" >×</text>
+<text x="754" y="284" fill="#33445e" font-size="36" font-weight="700" text-anchor="middle" >+</text>
+<path d="M950 273 H1007" stroke="#33445e" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+<path d="M993 263 L1007 273 L993 283" stroke="#33445e" stroke-width="2.6" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="1024" y="242" width="162" height="61" rx="14" fill="url(#green)" stroke="#08a56b" stroke-width="1.8" />
+<text x="1105" y="282" fill="#066c52" font-size="29" font-weight="700" text-anchor="middle" >ReLU</text>
+<path d="M1203 273 H1257" stroke="#33445e" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+<path d="M1243 263 L1257 273 L1243 283" stroke="#33445e" stroke-width="2.6" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M1507 246 V300" fill="none" stroke="#66748e" stroke-width="1.9"/>
+<text x="1548" y="280" fill="#123ab2" font-size="26" font-weight="700" text-anchor="start" >independent</text>
+</g>
+<g id="group-1" aria-label="Group 1">
+<rect x="67" y="347" width="191" height="93" rx="19" fill="url(#orange)" stroke="#e88a04" stroke-width="1.8" />
+<text x="163" y="381" fill="#91400b" font-size="27" font-weight="700" text-anchor="middle" >Group 1</text>
+<text x="163" y="419" fill="#91400b" font-size="24" font-weight="700" text-anchor="middle" >M₁ = 1</text>
+<rect x="319" y="374" width="72" height="40" rx="11" fill="#fff3cf" stroke="#e88a04" stroke-width="1.8" />
+<text x="355.0" y="402.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >2</text>
+<rect x="394" y="374" width="72" height="40" rx="11" fill="#fff3cf" stroke="#e88a04" stroke-width="1.8" />
+<text x="430.0" y="402.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >-1</text>
+<rect x="565" y="350" width="72" height="40" rx="11" fill="#fff3cf" stroke="#e88a04" stroke-width="1.8" />
+<text x="601.0" y="378.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >2</text>
+<rect x="640" y="350" width="72" height="40" rx="11" fill="#fff3cf" stroke="#e88a04" stroke-width="1.8" />
+<text x="676.0" y="378.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >-1</text>
+<rect x="565" y="393" width="72" height="40" rx="11" fill="#fff3cf" stroke="#e88a04" stroke-width="1.8" />
+<text x="601.0" y="421.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >1</text>
+<rect x="640" y="393" width="72" height="40" rx="11" fill="#fff3cf" stroke="#e88a04" stroke-width="1.8" />
+<text x="676.0" y="421.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >3</text>
+<rect x="797" y="374" width="72" height="40" rx="11" fill="#fff3cf" stroke="#e88a04" stroke-width="1.8" />
+<text x="833.0" y="402.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >-1</text>
+<rect x="872" y="374" width="72" height="40" rx="11" fill="#fff3cf" stroke="#e88a04" stroke-width="1.8" />
+<text x="908.0" y="402.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >2</text>
+<rect x="1295" y="374" width="72" height="40" rx="11" fill="#fff3cf" stroke="#e88a04" stroke-width="1.8" />
+<text x="1331.0" y="402.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >2</text>
+<rect x="1370" y="374" width="72" height="40" rx="11" fill="#fff3cf" stroke="#e88a04" stroke-width="1.8" />
+<text x="1406.0" y="402.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >0</text>
+<text x="514" y="405" fill="#33445e" font-size="37" font-weight="700" text-anchor="middle" >×</text>
+<text x="754" y="405" fill="#33445e" font-size="36" font-weight="700" text-anchor="middle" >+</text>
+<path d="M950 394 H1007" stroke="#33445e" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+<path d="M993 384 L1007 394 L993 404" stroke="#33445e" stroke-width="2.6" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="1024" y="363" width="162" height="61" rx="14" fill="url(#green)" stroke="#08a56b" stroke-width="1.8" />
+<text x="1105" y="403" fill="#066c52" font-size="29" font-weight="700" text-anchor="middle" >ReLU</text>
+<path d="M1203 394 H1257" stroke="#33445e" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+<path d="M1243 384 L1257 394 L1243 404" stroke="#33445e" stroke-width="2.6" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M1507 367 V421" fill="none" stroke="#66748e" stroke-width="1.9"/>
+<text x="1548" y="401" fill="#91400b" font-size="26" font-weight="700" text-anchor="start" >independent</text>
+</g>
+<g id="group-2" aria-label="Group 2">
+<rect x="67" y="475" width="191" height="95" rx="19" fill="url(#purple)" stroke="#9346ff" stroke-width="1.8" />
+<text x="163" y="509" fill="#5720b2" font-size="27" font-weight="700" text-anchor="middle" >Group 2</text>
+<text x="163" y="547" fill="#5720b2" font-size="24" font-weight="700" text-anchor="middle" >M₂ = 3</text>
+<rect x="319" y="463" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="355.0" y="491.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >-1</text>
+<rect x="394" y="463" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="430.0" y="491.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >2</text>
+<rect x="319" y="506" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="355.0" y="534.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >0</text>
+<rect x="394" y="506" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="430.0" y="534.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >3</text>
+<rect x="319" y="549" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="355.0" y="577.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >2</text>
+<rect x="394" y="549" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="430.0" y="577.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >1</text>
+<rect x="565" y="483" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="601.0" y="511.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >-1</text>
+<rect x="640" y="483" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="676.0" y="511.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >1</text>
+<rect x="565" y="526" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="601.0" y="554.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >2</text>
+<rect x="640" y="526" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="676.0" y="554.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >-2</text>
+<rect x="797" y="501" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="833.0" y="529.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >0</text>
+<rect x="872" y="501" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="908.0" y="529.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >1</text>
+<rect x="1295" y="463" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="1331.0" y="491.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >5</text>
+<rect x="1370" y="463" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="1406.0" y="491.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >0</text>
+<rect x="1295" y="506" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="1331.0" y="534.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >6</text>
+<rect x="1370" y="506" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="1406.0" y="534.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >0</text>
+<rect x="1295" y="549" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="1331.0" y="577.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >0</text>
+<rect x="1370" y="549" width="72" height="40" rx="11" fill="#f1e8ff" stroke="#9346ff" stroke-width="1.8" />
+<text x="1406.0" y="577.0" fill="#111827" font-size="26" font-weight="700" text-anchor="middle" >1</text>
+<text x="514" y="535" fill="#33445e" font-size="37" font-weight="700" text-anchor="middle" >×</text>
+<text x="754" y="535" fill="#33445e" font-size="36" font-weight="700" text-anchor="middle" >+</text>
+<path d="M950 524 H1007" stroke="#33445e" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+<path d="M993 514 L1007 524 L993 534" stroke="#33445e" stroke-width="2.6" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="1024" y="493" width="162" height="61" rx="14" fill="url(#green)" stroke="#08a56b" stroke-width="1.8" />
+<text x="1105" y="533" fill="#066c52" font-size="29" font-weight="700" text-anchor="middle" >ReLU</text>
+<path d="M1203 524 H1257" stroke="#33445e" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+<path d="M1243 514 L1257 524 L1243 534" stroke="#33445e" stroke-width="2.6" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M1507 497 V551" fill="none" stroke="#66748e" stroke-width="1.9"/>
+<text x="1548" y="531" fill="#5720b2" font-size="26" font-weight="700" text-anchor="start" >independent</text>
+</g>
+<path d="M67 637 H1715" stroke="#d6e1ee" stroke-width="2"/>
+<rect x="67" y="657" width="547" height="57" rx="16" fill="url(#heading)" stroke="#d7e5f7" stroke-width="1.3" />
+<text x="87" y="695" fill="#0039b1" font-size="26" font-weight="700" text-anchor="start" >Key setting (constrained grouped GEMM)</text>
+<path d="M627 660 V712" fill="none" stroke="#60718d" stroke-width="1.6"/>
+<text x="650" y="678" fill="#263752" font-size="28" font-weight="700" text-anchor="start" >•</text>
+<text x="679" y="678" fill="#26334b" font-size="22" font-weight="400" text-anchor="start" >Only the row count M<tspan font-size="15.4" baseline-shift="sub">g</tspan> varies across groups (e.g., M<tspan font-size="15.4" baseline-shift="sub">0</tspan> = 2, M<tspan font-size="15.4" baseline-shift="sub">1</tspan> = 1, M<tspan font-size="15.4" baseline-shift="sub">2</tspan> = 3).</text>
+<text x="650" y="708" fill="#263752" font-size="28" font-weight="700" text-anchor="start" >•</text>
+<text x="679" y="707" fill="#26334b" font-size="22" font-weight="400" text-anchor="start" >The inner dimension K and output dimension N are the same for all groups.</text>
+<text x="67" y="774" fill="#35415b" font-size="25" font-weight="700" text-anchor="start" >General case:</text>
+<rect x="257" y="740" width="817" height="49" rx="13" fill="#f3f7fc" stroke="#d5e1ee" stroke-width="1.8" />
+<text x="277" y="771" fill="#344057" font-size="23" font-weight="600" text-anchor="start" >Y<tspan font-size="16.1" baseline-shift="sub">g</tspan> [M<tspan font-size="16.1" baseline-shift="sub">g</tspan>, N] = ReLU( X<tspan font-size="16.1" baseline-shift="sub">g</tspan> [M<tspan font-size="16.1" baseline-shift="sub">g</tspan>, K] × W<tspan font-size="16.1" baseline-shift="sub">g</tspan> [K, N] + b<tspan font-size="16.1" baseline-shift="sub">g</tspan> [N] ),     0 ≤ g &lt; G</text>
+</g></svg>
