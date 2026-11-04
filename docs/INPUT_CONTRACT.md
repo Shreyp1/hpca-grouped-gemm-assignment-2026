@@ -29,7 +29,7 @@ Let `R = sum_g (M_g)` and `row_offsets[0]=0`, `row_offsets[g+1]=row_offsets[g]+M
 | `d_row_offsets` | device | `G+1` integers | GPU-readable group boundaries |
 | `h_row_offsets` | host | `G+1` integers | CPU-readable identical boundaries |
 
-The fixed-size weight matrices and biases are already packed in group order. `h_row_offsets` is not generally accessible from device code. Input buffers are immutable; `z` may be overwritten by V1-V3, and **every valid element of `y` must be written** on each launch. Different groups' outputs must not overlap.
+The fixed-size weight matrices and biases are already packed in group order. `h_row_offsets` is not generally accessible from device code. Input buffers are immutable; `z` may be overwritten by V1-V3, and **every valid element of `y` must be written** during each complete variant invocation, which may contain multiple kernel launches. Different groups' outputs must not overlap.
 
 The driver allocates `z` only for baseline/V1-V3; V4/V5/bonus receive `z == nullptr`. The driver allocates even zero-length logical outputs safely; when `R=0`, no output elements exist and all variants should complete without invalid launches or memory accesses.
 
@@ -86,10 +86,26 @@ All output elements are checked. During `--verify`, output memory is poisoned be
 | `skewed` | 32 | 256 | 256 | `M_g = 256+32*(g mod 3)` if `g mod 7=0`, otherwise `0` if `g mod 5=0`, otherwise `4*(1+g mod 4)` |
 | `boundary` | 13 | 63 | 70 | `[0,1,2,3,7,15,16,17,31,32,33,63,65]` |
 | `wide` | 12 | 512 | 384 | `M_g = 96 + 16*(g mod 5)` |
+| `many-tiny` | 256 | 128 | 128 | `M_g = 0` if `g mod 5=0`, otherwise `1 + ((7*g) mod 16)`; launch overhead at the group limit |
+| `medium` | 8 | 512 | 512 | `M_g = 256 + 32*(g mod 4)`; balanced compute and reuse |
+| `large` | 4 | 2048 | 2048 | Every `M_g = 1024`; larger GEMMs and weight footprint |
+| `large-skewed` | 32 | 512 | 512 | `M_g = 4096` if `g mod 8=0`, otherwise `0` if `g mod 5=0`, otherwise `1 + (g mod 16)` |
 | `empty` | 4 | 17 | 19 | `[0,0,0,0]`, no work |
 | `custom` | variable | variable | variable | Explicit list or seeded patterns, subject to bounds |
 
 Use `./grouped_gemm --list-cases` for the public presets. Named cases determine dimensions and group sizes; `--seed` affects their values except for `toy`. Custom shape flags are accepted only with `--case=custom` to prevent accidentally misinterpreting a preset.
+
+### Routine checks and stress checks
+
+Routine checks cover representative inputs, including cases beyond the required report analysis. The optional stress checks add larger GEMMs and boundary shapes, whose CPU references take longer to compute. These commands check correctness; they do not define which cases must be analyzed in the report. Correctness is required across the full supported domain regardless of which check commands are run.
+
+| Command | Coverage |
+|---|---|
+| `make test-inputs` | Host generator, validation, and determinism for all presets; full CPU reference checks for routine presets |
+| `make check-all` | Baseline and V1-V5 on `toy`, `tiny`, `boundary`, `small`, `balanced`, `skewed`, `wide`, `many-tiny`, and `empty`, plus custom packed-boundary and maximum-row cases; seeds 2026 and 42 |
+| `make check-stress` | Routine checks plus `medium`, `large`, `large-skewed`, and custom cases reaching `K=4096` or `N=4096`, with empty groups and partial tiles; stress additions use seed 2026 |
+
+Both GPU check commands verify output and run one timed iteration without warm-up; these timings are diagnostic, not report measurements. Unimplemented variants fail. Use `IMPLS=baseline` to check only the baseline, or `IMPLS=bonus` for the optional bonus.
 
 ### Explicit custom group sizes
 

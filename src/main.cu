@@ -27,7 +27,7 @@ void usage() {
 Usage: ./grouped_gemm [options]
 
   --impl=baseline|v1|v2|v3|v4|v5|bonus    (default: baseline)
-  --case=toy|tiny|small|balanced|skewed|boundary|wide|empty|custom
+  --case=NAME     public preset or custom (see --list-cases)
   --iters=10      measured iterations (default: 10)
   --warmup=3      untimed iterations (default: 3)
   --seed=2026     reproducible data seed (default: 2026)
@@ -54,6 +54,10 @@ void print_cases() {
               << "  skewed    32 / 256 / 256    few large, many small or empty\n"
               << "  boundary  13 / 63 / 70      [0,1,2,3,7,15,16,17,31,32,33,63,65]\n"
               << "  wide      12 / 512 / 384    96 + 16*(g mod 5)\n"
+              << "  many-tiny 256 / 128 / 128   empty groups and 1..16 rows\n"
+              << "  medium    8 / 512 / 512     256 + 32*(g mod 4)\n"
+              << "  large     4 / 2048 / 2048   1024 rows per group\n"
+              << "  large-skewed 32 / 512 / 512 four 4096-row groups, many small or empty\n"
               << "  empty     4 / 17 / 19       [0,0,0,0]\n"
               << "  custom    user-provided dimensions and sizes/pattern\n";
 }
@@ -165,7 +169,7 @@ struct DeviceStorage {
 };
 
 void print_shape(const HostProblem& h, const Args& args) {
-    int min_m = 1025, max_m = 0, zero_groups = 0;
+    int min_m = std::numeric_limits<int>::max(), max_m = 0, zero_groups = 0;
     for (int g = 0; g < h.groups; ++g) {
         const int m = h.row_offsets[g + 1] - h.row_offsets[g];
         min_m = std::min(min_m, m);

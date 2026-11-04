@@ -84,7 +84,7 @@ For the toy example, `row_offsets = [0, 2, 3, 6]`. In general:
 | `Y` | `[sum_g (M_g), N]` |
 | `Z` | `[sum_g (M_g), N]`, temporary GEMM output for baseline/V1-V3; absent for V4/V5 |
 
-The buffers are fully allocated and initialized by the harness. No student code is required for packing, allocation, or input transfers. See [the precise contract](docs/INPUT_CONTRACT.md) for layout, supported shapes, determinism, and corner cases.
+The harness allocates the buffers and initializes the inputs. Do not assume that `Y` or scratch `Z` initially contains zeros; `Y` is poisoned before verification to detect unwritten outputs. No student code is required for packing, allocation, or input transfers. See [the precise contract](docs/INPUT_CONTRACT.md) for layout, supported shapes, determinism, and corner cases.
 
 ---
 
@@ -173,7 +173,7 @@ A correct implementation must handle such excess CTAs without invalid memory acc
 
 All variants must compute the same result for the public and additional valid inputs, including **unequal group sizes, empty groups, and dimensions that do not divide evenly into tile sizes**. The checker uses an FP32 tolerance; bitwise identity is not required.
 
-Evaluate **different workload regimes** rather than optimizing only one square matrix. At minimum, analyze small groups, balanced groups, and highly skewed groups. Use **Nsight Systems** to study launch behavior and **Nsight Compute** to study memory, occupancy, and register usage, where those tools support the assigned GPU. Do not infer a bottleneck from execution time alone.
+Evaluate **different workload regimes** rather than optimizing only one square matrix. The report must analyze `small`, `balanced`, `skewed`, and `boundary`, demonstrate at least one custom case, and include correctness evidence for `toy`. The broader correctness checks in `make check-all` do not require a report analysis for every case. Use **Nsight Systems** to study launch behavior and **Nsight Compute** to study memory, occupancy, and register usage, where those tools support the assigned GPU. Do not infer a bottleneck from execution time alone.
 
 Your PDF should discuss the implementation decisions and include correctness evidence, per-variant timing comparisons, meaningful profiler observations, and explanations for regressions as well as improvements. The measured time must include all kernels that belong to the variant, not only the GEMM kernel.
 
@@ -212,7 +212,7 @@ make test-inputs
 For a GPU architecture that needs an explicit target, for example:
 
 ```bash
-make clean && make ARCH=75
+make clean && make ARCH=80
 ```
 
 Choose the `ARCH` value for the **actual GPU and installed CUDA toolkit**; do not blindly use the example value.
@@ -254,9 +254,12 @@ make                 # Optimized build
 make clean && make DEBUG=1
 make test-inputs     # No GPU or nvcc required
 make check           # Baseline GPU smoke tests
-make check-all       # All variant/case combinations (TODOs will fail)
+make check-all       # Routine GPU cases and custom boundaries, two seeds
+make check-stress    # (Optional) Routine checks plus expensive large/boundary cases
 make clean
 ```
+
+For example if using A100 GPU, build with `make ARCH=80`. Use `IMPLS=baseline make check-all` to check only the supplied baseline; unimplemented variants fail. The optional `check-stress` target adds larger correctness checks. See the [check coverage](docs/INPUT_CONTRACT.md#routine-checks-and-stress-checks).
 
 
 Useful benchmark options:
@@ -264,7 +267,7 @@ Useful benchmark options:
 | Option | Meaning |
 |---|---|
 | `--impl=baseline\|v1\|v2\|v3\|v4\|v5\|bonus` | Choose a kernel variant |
-| `--case=toy\|tiny\|small\|balanced\|skewed\|boundary\|wide\|empty\|custom` | Choose shapes |
+| `--case=NAME` | Choose a preset (`--list-cases`) or `custom`; includes `many-tiny`, `medium`, `large`, and `large-skewed` |
 | `--verify` | Compare packed output against CPU reference |
 | `--iters=10` | Number of measured repetitions |
 | `--warmup=3` | Number of untimed warm-up repetitions |
@@ -305,6 +308,19 @@ ncu --set basic -o reports/gemm_v3 \
 Create `reports/` first (`mkdir -p reports`). Some older NVIDIA GPUs are unsupported by recent Nsight Compute versions, and some servers restrict hardware performance counters. In those environments, use a **course-approved compatible profiler** and still report available timings and architectural reasoning. See the [HPCA 2026 tutorial](https://github.com/shwetaiisc/hpca-tutorial-2026) for profiler examples.
 
 **Benchmark interpretation:** the driver reports median GPU-event time (all launches in the variant), median host wall time, and GEMM GFLOP/s based on the useful matrix-multiplication work. GPU-event time is not necessarily identical to wall time, especially for many small launches. Input creation, allocation, host-to-device copies, and reference verification are outside the measured iteration.
+
+Keep benchmark settings fixed across variants and collect timings separately from profiler runs. See the [measurement requirements](ASSIGNMENT.md#reproducible-performance-comparisons).
+
+### Launch-structure trace
+
+To trace one operation, omit verification and warm-up:
+
+```bash
+nsys profile --trace=cuda -o reports/launch_v5 \
+    ./grouped_gemm --case=tiny --impl=v5 --iters=1 --warmup=0
+```
+
+The kernel timeline should show one V5 launch; the corresponding V4 run should show five, and baseline/V1-V3 should show ten. Check the source for the required stages and stream usage; numerical verification alone does not check these rules.
 
 ## 9. Troubleshooting and resources
 

@@ -110,6 +110,26 @@ HostProblem make_host_problem(const InputSpec& spec) {
         out.k = 512;
         out.n = 384;
         for (int g = 0; g < 12; ++g) sizes.push_back(96 + 16 * (g % 5));
+    } else if (spec.case_name == "many-tiny") {
+        out.k = 128;
+        out.n = 128;
+        for (int g = 0; g < 256; ++g) {
+            sizes.push_back(g % 5 == 0 ? 0 : 1 + (7 * g) % 16);
+        }
+    } else if (spec.case_name == "medium") {
+        out.k = 512;
+        out.n = 512;
+        for (int g = 0; g < 8; ++g) sizes.push_back(256 + 32 * (g % 4));
+    } else if (spec.case_name == "large") {
+        out.k = 2048;
+        out.n = 2048;
+        sizes.assign(4, 1024);
+    } else if (spec.case_name == "large-skewed") {
+        out.k = 512;
+        out.n = 512;
+        for (int g = 0; g < 32; ++g) {
+            sizes.push_back(g % 8 == 0 ? 4096 : (g % 5 == 0 ? 0 : 1 + g % 16));
+        }
     } else if (spec.case_name == "empty") {
         out.k = 17;
         out.n = 19;

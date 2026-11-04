@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-static void test_case(const std::string& name) {
+static void test_case(const std::string& name, bool check_reference = true) {
     InputSpec spec;
     spec.case_name = name;
     const auto p = make_host_problem(spec);
@@ -19,9 +19,11 @@ static void test_case(const std::string& name) {
     assert(p.x.size() == static_cast<size_t>(p.total_rows()) * p.k);
     assert(p.w.size() == static_cast<size_t>(p.groups) * p.k * p.n);
     assert(p.bias.size() == static_cast<size_t>(p.groups) * p.n);
-    const auto ref = cpu_reference(p);
-    assert(ref.size() == static_cast<size_t>(p.total_rows()) * p.n);
-    for (float v : ref) assert(std::isfinite(v) && v >= 0.0f);
+    if (check_reference) {
+        const auto ref = cpu_reference(p);
+        assert(ref.size() == static_cast<size_t>(p.total_rows()) * p.n);
+        for (float v : ref) assert(std::isfinite(v) && v >= 0.0f);
+    }
     const auto again = make_host_problem(spec);
     assert(p.row_offsets == again.row_offsets);
     assert(p.x == again.x && p.w == again.w && p.bias == again.bias);
@@ -38,6 +40,10 @@ static void expect_invalid(const InputSpec& spec) {
 int main() {
     for (const char* name : {"toy", "tiny", "small", "balanced", "skewed", "boundary", "wide", "empty"}) {
         test_case(name);
+    }
+    test_case("many-tiny");
+    for (const char* name : {"medium", "large", "large-skewed"}) {
+        test_case(name, false);
     }
     InputSpec toy_spec;
     toy_spec.case_name = "toy";

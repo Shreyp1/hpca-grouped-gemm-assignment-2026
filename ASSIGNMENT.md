@@ -94,7 +94,9 @@ Improve the V5 grouped schedule to avoid unnecessary work caused by overprovisio
 
 ## Workload and measurement requirements
 
-Use the supplied [named cases](docs/INPUT_CONTRACT.md#public-test-cases) and also demonstrate at least one custom case. The report must cover **small**, **balanced**, **skewed**, and **boundary** workloads, in addition to the tiny correctness example. You may profile a smaller representative case if your tool or GPU cannot complete a large profiler run, but disclose that change.
+Use the supplied [named cases](docs/INPUT_CONTRACT.md#public-test-cases) and also demonstrate at least one custom case. The report must analyze **small**, **balanced**, **skewed**, and **boundary** workloads and include correctness evidence for **toy**, the illustrated numerical example. The additional `many-tiny`, `medium`, `large`, and `large-skewed` presets are available for optional report experiments.
+
+Correctness is required for every input within the contract, whether or not its case is analyzed in the report. Accordingly, `make check-all` checks more cases than the required report analysis, including `many-tiny`. Running the separate `make check-stress` command is optional; supporting the valid inputs it checks is not. You may profile a smaller representative case if your tool or GPU cannot complete a large profiler run, but disclose that change.
 
 | Comparison | Questions to answer / evidence to seek |
 |---|---|
@@ -106,6 +108,24 @@ Use the supplied [named cases](docs/INPUT_CONTRACT.md#public-test-cases) and als
 | V5 -> Bonus | Is reduced scheduling waste worth extra mapping overhead? |
 
 The provided driver reports **median GPU event time**, **median host wall time**, and useful GEMM GFLOP/s. Compare the complete operation, including the pointwise kernel for V1-V3. Do not omit slow cases or report a kernel-only speedup as an end-to-end speedup. If hardware counter collection is unsupported, explain the limitation and rely on valid measurements and reasoned access/occupancy analysis.
+
+### Reproducible performance comparisons
+
+Keep shapes, seeds, compiler flags, warm-up counts, and iteration counts fixed across variants. Verify correctness before collecting timings, and report absolute times alongside speedups. Use ordinary benchmark runs for timing and separate profiler runs for counters and timelines.
+
+### Checking launch structure
+
+Numerical verification does not enforce launch structure. Check the source and, where available, an Nsight Systems CUDA timeline. For a problem with `H` nonempty groups (`H > 0`), the required launch counts are:
+
+| Variant | Required GPU kernel launches per complete operation |
+|---|---|
+| Baseline and V1-V3 | `2*H`: a GEMM writing `Z` and a separate Bias + ReLU for each nonempty group |
+| V4 | `H`: one fused kernel per nonempty group |
+| V5 and bonus | Exactly one grouped fused kernel |
+
+Use `--iters=1 --warmup=0` without `--verify` to trace one operation. The `tiny` case has five nonempty groups, giving expected counts of 10, 5, and 1 respectively. The [profiling instructions](README.md#launch-structure-trace) give a trace command.
+
+Also read the code to check that kernels use the provided CUDA stream without synchronizing inside the launcher, each variant follows its required kernel stages, and launchers use the provided buffers without allocating or freeing GPU memory.
 
 ### Suggested report outline
 
@@ -122,6 +142,8 @@ Keep the report focused on empirical evidence and GPU architecture. A fast resul
 ## Evaluation principles
 
 Correctness on the specified input contract is mandatory. Evaluation will consider progressive optimization, quality of profiling and architectural explanation, correctness of the single-launch grouped execution, and code clarity.
+
+Compare performance separately for each workload regime. In particular, evaluate V5 on small and skewed groups rather than relying only on large-GEMM throughput.
 
 ## Submission
 

@@ -8,7 +8,7 @@ struct GroupedGemmProblem {
     int groups;                 // G >= 1
     int k;                      // common reduction dimension, K
     int n;                      // common output dimension, N
-    int total_rows;             // sum_g M_g
+    int total_rows;             // sum_g (M_g)
 
     const int* h_row_offsets;   // host metadata, length G+1
     const int* d_row_offsets;   // device metadata, length G+1
