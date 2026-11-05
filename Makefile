@@ -45,7 +45,7 @@ check-stress: grouped_gemm
 
 help:
 	@echo 'make                  Build benchmark (requires nvcc)'
-	@echo 'make ARCH=80          Build for a chosen sm architecture'
+	@echo 'make ARCH=75          Build for RTX 2080 Ti (compute capability 7.5)'
 	@echo 'make DEBUG=1          Debug build'
 	@echo 'make test-inputs      Host-only input/reference tests (no CUDA needed)'
 	@echo 'make check            CUDA baseline smoke tests'

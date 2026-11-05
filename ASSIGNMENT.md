@@ -147,6 +147,8 @@ Compare performance separately for each workload regime. In particular, evaluate
 
 ## Submission
 
+**Deadline: 22 November 2026, 23:59 IST.**
+
 Submit a folder named with the **last five digits of your SR ID**, containing exactly:
 
 ```text
@@ -164,6 +166,6 @@ Do not submit modified copies of `main.cu`, `baseline.cu`, `input_generator.cpp`
 
 **STRICTLY NO CHEATING IN ANY FORM.**
 
-All submitted code, experimental results, and analysis must be your own work. Plagiarism, copying or sharing solutions, unauthorized collaboration, blindly submitting AI-generated code, and fabricating results are strictly prohibited.
+All submitted code, experimental results, and analysis must be your own work. Plagiarism, copying or sharing solutions, unauthorized collaboration, submitting AI-generated code, and fabricating results are strictly prohibited.
 
 **Any violation will be treated as academic misconduct and handled strictly according to the institute's academic-integrity policy.**

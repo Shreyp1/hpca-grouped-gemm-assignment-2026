@@ -7,6 +7,7 @@ In the [HPCA 2026 profiling tutorial](https://github.com/shwetaiisc/hpca-tutoria
 You will implement **five progressively optimized CUDA variants**. Each variant must retain the improvements of the previous one. Use Nsight Systems and Nsight Compute (as required) to explain the observed performance. The objective is not merely to obtain one fast kernel, but to understand **why an optimization works, when it does not, and what the hardware is doing**.
 
 > **Submission:** Submit exactly two files: `grouped_gemm_kernels.cu` (your CUDA implementation) and `report.pdf` (your performance analysis). You must implement all required variants by modifying only `grouped_gemm_kernels.cu`. ***Do not modify any other files in the provided repository.***
+> **Deadline:** 22 November 2026, 23:59 IST.
 > 
 > Before starting the assignment, read the [assignment requirements](ASSIGNMENT.md) and [input contract](docs/INPUT_CONTRACT.md) as well.
 ---
@@ -185,7 +186,7 @@ Submit exactly:
   report.pdf
 ```
 
-Do not submit the provided driver, headers, reference, compiled binary, or profiler raw files. Administrative details (deadline, submission platform, grading weights) will be announced shortly.
+Do not submit the provided driver, headers, reference, compiled binary, or profiler raw files. The submission deadline is **22 November 2026, 23:59 IST**. The submission platform and grading weights will be announced separately.
 
 ---
 
@@ -212,7 +213,7 @@ make test-inputs
 For a GPU architecture that needs an explicit target, for example:
 
 ```bash
-make clean && make ARCH=80
+make clean && make ARCH=75
 ```
 
 Choose the `ARCH` value for the **actual GPU and installed CUDA toolkit**; do not blindly use the example value.
@@ -259,7 +260,7 @@ make check-stress    # (Optional) Routine checks plus expensive large/boundary c
 make clean
 ```
 
-For example if using A100 GPU, build with `make ARCH=80`. Use `IMPLS=baseline make check-all` to check only the supplied baseline; unimplemented variants fail. The optional `check-stress` target adds larger correctness checks. See the [check coverage](docs/INPUT_CONTRACT.md#routine-checks-and-stress-checks).
+For the RTX 2080 Ti (compute capability **7.5**), build with `make ARCH=75`. Use `IMPLS=baseline make check-all` to check only the supplied baseline; unimplemented variants fail. The optional `check-stress` target adds larger correctness checks. See the [check coverage](docs/INPUT_CONTRACT.md#routine-checks-and-stress-checks).
 
 
 Useful benchmark options:
