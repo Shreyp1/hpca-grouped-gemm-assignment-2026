@@ -20,7 +20,7 @@ A conventional GEMM computes one matrix product. Many machine-learning workloads
 In this assignment, group `g` computes
 
 $$
-Y_g = \operatorname{ReLU}(X_g W_g + b_g), \qquad 0 \leq g < G.
+Y_g = \mathrm{ReLU}(X_g W_g + b_g), \qquad 0 \leq g < G.
 $$
 
 The bias is broadcast across the rows of the matrix product, and `ReLU(x) = max(0, x)`.
