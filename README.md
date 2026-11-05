@@ -2,7 +2,7 @@
 
 **From memory coalescing to register reuse, operator fusion, and irregular GPU work scheduling.**
 
-In the [HPCA 2026 profiling tutorial](https://github.com/shwetaiisc/hpca-tutorial-2026), you studied how data movement and the GPU memory hierarchy affect matrix multiplication. This assignment asks you to apply those ideas to a related but more realistic problem: **many matrix multiplications of unequal sizes**, followed by a pointwise operation.
+In the upcoming [HPCA 2026 profiling tutorial](https://github.com/shwetaiisc/hpca-tutorial-2026), you shall study how data movement and the GPU memory hierarchy affect matrix multiplication. This assignment asks you to apply those ideas to a related but more realistic problem: **many matrix multiplications of unequal sizes**, followed by a pointwise operation.
 
 You will implement **five progressively optimized CUDA variants**. Each variant must retain the improvements of the previous one. Use Nsight Systems and Nsight Compute (as required) to explain the observed performance. The objective is not merely to obtain one fast kernel, but to understand **why an optimization works, when it does not, and what the hardware is doing**.
 
